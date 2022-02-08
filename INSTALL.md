@@ -192,7 +192,13 @@ cp .env.example .env
 php artisan key:generate
 ```
 
-Открываем файл .env, заменяем **APP_URL** на адрес сайта, **DB_** на параметры базы данных. После чего выполняем:
+Открываем файл .env
+
+```
+sudo nano /home/deepchecker/.env
+```
+
+Заменяем **APP_URL** на адрес сайта, **DB_** на параметры базы данных. После чего выполняем:
 
 ```
 php artisan config:cache
