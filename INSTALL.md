@@ -197,7 +197,11 @@ php artisan key:generate
 sudo nano /home/deepchecker/.env
 ```
 
-Заменяем **APP_URL** на ваш домен формате https://domain.com/, **DB_** на параметры базы данных. После чего выполняем:
+Заменяем значение **APP_URL** на ваш домен формате https://domain.com/,
+Заменяем значение **DB_DATABASE** на deepchecker
+Заменяем значение **DB_PASSWORD** на пароль, который вы указывали выше (на шаге 'Установка MySQL 8')
+
+После чего выполняем:
 
 ```
 php artisan config:cache
