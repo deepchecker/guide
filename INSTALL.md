@@ -200,7 +200,7 @@ php artisan key:generate
 sudo nano /home/deepchecker/.env
 ```
 
-Заменяем **APP_URL** на адрес сайта, **DB_** на параметры базы данных. После чего выполняем:
+Заменяем **APP_URL** на ваш домен формате https://domain.com/, **DB_** на параметры базы данных. После чего выполняем:
 
 ```
 php artisan config:cache
