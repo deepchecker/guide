@@ -90,7 +90,7 @@ sudo rm default
 sudo nano default
 ```
 
-Вставляем данный конфиг, заменяем 'yourdomain.com' на свой домен, сохраняем, закрываем.
+Вставляем данный конфиг, заменяем 'yourdomain.com' на свой домен
 
 ```
 server {
