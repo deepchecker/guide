@@ -86,7 +86,7 @@ sudo rm default
 sudo nano default
 ```
 
-Вставляем данный конфиг, сохраняем, закрываем.
+Вставляем данный конфиг, заменяем 'yourdomain.com' на свой домен, сохраняем, закрываем.
 
 ```
 server {
@@ -97,7 +97,7 @@ server {
 
 server {
     listen 80;
-    server_name yourdomain.com; //Заменяем на свой домен
+    server_name yourdomain.com;
     root /home/deepchecker/public;
     index index.php;
 
