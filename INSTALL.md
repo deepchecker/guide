@@ -228,7 +228,7 @@ crontab -e
 ```
 Choose 1-4 [1]: **1**  
 
-Добавляем:
+Добавляем в конец файла:
 
 ```
 * * * * * cd /home/deepchecker && php artisan schedule:run >> /dev/null 2>&1
