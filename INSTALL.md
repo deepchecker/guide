@@ -191,7 +191,7 @@ mkdir deepchecker
 cd deepchecker
 ```
 
-Скачиваем архив с чекером. Распаковываем его в `/home/deepchecker`
+Загружаем архив с чекером на сервер. Распаковываем его в `/home/deepchecker`
 
 ```
 composer install --ignore-platform-reqs
