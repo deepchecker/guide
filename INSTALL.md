@@ -37,7 +37,7 @@ sudo mysql_secure_installation
 
 Во время выполнения последней команды отвечаем на следующие вопросы:
 
-- Would you like to setup VALIDATE PASSWORD component? **пустая строка**
+- Would you like to setup VALIDATE PASSWORD component? **N**
 - New password/Re-enter new password **Новый пароль от БД**
 - Remove anonymous users? **Y**
 - Disallow root login remotely? **Y**
