@@ -226,6 +226,7 @@ php artisan migrate
 ```
 crontab -e
 ```
+Choose 1-4 [1]: **1**  
 
 Добавляем:
 
