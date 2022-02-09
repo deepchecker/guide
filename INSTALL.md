@@ -435,7 +435,7 @@ sudo supervisorctl start all
 ## Установка сертификата
 
 ```
-sudo apt insatll snapd
+sudo apt install snapd
 sudo snap install core
 sudo snap refresh core
 sudo snap install --classic certbot
