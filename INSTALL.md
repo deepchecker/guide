@@ -191,7 +191,12 @@ mkdir deepchecker
 cd deepchecker
 ```
 
-Загружаем архив с чекером на сервер. Распаковываем его в `/home/deepchecker`
+Загружаем архив с чекером на сервер в папку `/home/deepchecker`.  
+
+Распаковываем архив так, чтобы внутри папки deepchecker оказались папки app, bootstrap, config, database, public и другие файлы архива.
+```
+unzip deepchecker.zip
+```
 
 ```
 composer install --ignore-platform-reqs
