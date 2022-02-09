@@ -198,7 +198,6 @@ sudo nano /home/deepchecker/.env
 ```
 
 Заменяем значение **APP_URL** на ваш домен формате https://domain.com/  
-
 Заменяем значение **DB_PASSWORD** на пароль, который вы указывали выше (на шаге 'Установка MySQL 8')  
 
 
