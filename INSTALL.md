@@ -97,7 +97,7 @@ server {
 
 server {
     listen 80;
-    server_name **ваш домен**;
+    server_name yourdomain.com; //Заменяем на свой домен
     root /home/deepchecker/public;
     index index.php;
 
