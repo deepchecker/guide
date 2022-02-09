@@ -44,12 +44,13 @@ sudo mysql_secure_installation
 Во время выполнения последней команды отвечаем на следующие вопросы:
 
 - Would you like to setup VALIDATE PASSWORD component? **N**
-- New password/Re-enter new password **Новый пароль от БД**
+- New password/Re-enter new password **Вводим желаемый пароль от БД**
 - Remove anonymous users? **Y**
 - Disallow root login remotely? **Y**
 - Remove test database and access to it? **Y**
 - Reload privilege tables now? **Y**
 
+Не забудьте сохранить пароль от БД, он еще пригодится.  
 После заходим в БД `mysql -u root -p` и добавляем новую базу данных:
 
 ```
