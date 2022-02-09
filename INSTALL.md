@@ -166,6 +166,7 @@ server {
     }
 }
 ```
+Жмем ctrl + x, затем Y, затем enter
 
 ## Установка Composer
 
