@@ -204,6 +204,15 @@ cp .env.example .env
 php artisan key:generate
 ```
 
+## Права доступа к файлам
+
+```
+sudo find /home/deepchecker -type f -exec chmod 644 {} \;
+sudo find /home/deepchecker -type d -exec chmod 755 {} \;
+sudo chgrp -R www-data storage bootstrap/cache
+sudo chmod -R ug+rwx storage bootstrap/cache
+```
+
 Открываем файл .env
 
 ```
@@ -432,15 +441,6 @@ stopwaitsecs=3600
 sudo supervisorctl reread
 sudo supervisorctl update
 sudo supervisorctl start all
-```
-
-## Права доступа к файлам
-
-```
-sudo find /home/deepchecker -type f -exec chmod 644 {} \;
-sudo find /home/deepchecker -type d -exec chmod 755 {} \;
-sudo chgrp -R www-data storage bootstrap/cache
-sudo chmod -R ug+rwx storage bootstrap/cache
 ```
 
 ## Установка сертификата
