@@ -432,6 +432,12 @@ sudo supervisorctl update
 sudo supervisorctl start all
 ```
 
+## Права доступа к файлам
+
+```
+sudo chmod -R 777 /home/deepchecker
+```
+
 ## Установка сертификата
 
 ```
