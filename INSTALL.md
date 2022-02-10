@@ -439,6 +439,8 @@ sudo supervisorctl start all
 ```
 sudo find /home/deepchecker -type f -exec chmod 644 {} \;
 sudo find /home/deepchecker -type d -exec chmod 755 {} \;
+sudo chgrp -R www-data storage bootstrap/cache
+sudo chmod -R ug+rwx storage bootstrap/cache
 ```
 
 ## Установка сертификата
