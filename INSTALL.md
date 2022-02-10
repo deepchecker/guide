@@ -217,6 +217,8 @@ sudo nano /home/deepchecker/.env
 После чего выполняем:
 
 ```
+composer clearcache
+composer update --ignore-platform-reqs
 php artisan config:cache
 php artisan migrate
 ```
