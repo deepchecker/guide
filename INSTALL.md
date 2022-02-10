@@ -201,6 +201,7 @@ unzip deepchecker.zip
 Права доступа к файлам
 
 ```
+chmod -R 775 /home/deepchecker
 sudo find /home/deepchecker -type f -exec chmod 644 {} \;
 sudo find /home/deepchecker -type d -exec chmod 755 {} \;
 sudo chgrp -R www-data storage bootstrap/cache
