@@ -198,19 +198,19 @@ cd deepchecker
 unzip deepchecker.zip
 ```
 
-```
-composer install --ignore-platform-reqs
-cp .env.example .env
-php artisan key:generate
-```
-
-## Права доступа к файлам
+Права доступа к файлам
 
 ```
 sudo find /home/deepchecker -type f -exec chmod 644 {} \;
 sudo find /home/deepchecker -type d -exec chmod 755 {} \;
 sudo chgrp -R www-data storage bootstrap/cache
 sudo chmod -R ug+rwx storage bootstrap/cache
+```
+
+```
+composer install --ignore-platform-reqs
+cp .env.example .env
+php artisan key:generate
 ```
 
 Открываем файл .env
