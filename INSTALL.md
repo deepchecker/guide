@@ -187,7 +187,7 @@ sudo apt install supervisor
 
 ```
 cd /home
-mkdir deepchecker
+sudo mkdir deepchecker
 cd deepchecker
 ```
 
