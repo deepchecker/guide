@@ -471,7 +471,7 @@ Select the appropriate numbers separated by commas and/or spaces, or leave input
 blank to select all options shown (Enter 'c' to cancel): **Номер слева от вашего домена**
 ```
 
-# (Опционально) Ошибка порта 443
+## (Опционально) Ошибка порта 443
 В редких случаях, на вашем VPS сервере может быть закрыт порт 443, тогда вы столкнетесь на предыдущем шаге с ошибкой 'Invalid response from https://вашдомен.com/:443...'. 
 В случае, если вы столкнулись с такой ошибкой - откройте порт 443 командой:
 ```
