@@ -27,6 +27,7 @@ DeepChecker - приложение, потребляющее большое ко
 ## Установка необходимого софта
 
 ```
+sudo apt-get update
 sudo apt install software-properties-common git zip unzip curl
 ```
 
