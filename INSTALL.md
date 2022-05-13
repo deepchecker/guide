@@ -212,8 +212,10 @@ unzip deepchecker.zip
 
 ```
 chmod -R 775 /home/deepchecker
-sudo chgrp -R www-data /home/deepchecker/storage /home/deepchecker/bootstrap/cache
-sudo chmod -R ug+rwx /home/deepchecker/storage /home/deepchecker/bootstrap/cache
+sudo find . -type f -exec chmod 644 {} \;
+sudo find . -type d -exec chmod 755 {} \;
+sudo chmod -R 777 ./storage
+sudo chmod -R 777 ./bootstrap/cache/
 ```
 
 ```
@@ -274,6 +276,7 @@ numprocs=1
 redirect_stderr=true
 stdout_logfile=/home/deepchecker/storage/logs/worker.log
 stopwaitsecs=3600
+startsecs=0
 
 [program:crypt-worker-2]
 process_name=%(program_name)s_%(process_num)02d
@@ -286,6 +289,7 @@ numprocs=1
 redirect_stderr=true
 stdout_logfile=/home/deepchecker/storage/logs/worker.log
 stopwaitsecs=3600
+startsecs=0
 
 [program:crypt-worker-3]
 process_name=%(program_name)s_%(process_num)02d
@@ -298,6 +302,7 @@ numprocs=1
 redirect_stderr=true
 stdout_logfile=/home/deepchecker/storage/logs/worker.log
 stopwaitsecs=3600
+startsecs=0
 
 [program:crypt-worker-4]
 process_name=%(program_name)s_%(process_num)02d
@@ -310,6 +315,7 @@ numprocs=1
 redirect_stderr=true
 stdout_logfile=/home/deepchecker/storage/logs/worker.log
 stopwaitsecs=3600
+startsecs=0
 
 [program:crypt-worker-5]
 process_name=%(program_name)s_%(process_num)02d
@@ -322,6 +328,7 @@ numprocs=1
 redirect_stderr=true
 stdout_logfile=/home/deepchecker/storage/logs/worker.log
 stopwaitsecs=3600
+startsecs=0
 
 [program:crypt-worker-6]
 process_name=%(program_name)s_%(process_num)02d
@@ -334,6 +341,7 @@ numprocs=1
 redirect_stderr=true
 stdout_logfile=/home/deepchecker/storage/logs/worker.log
 stopwaitsecs=3600
+startsecs=0
 
 [program:crypt-worker-7]
 process_name=%(program_name)s_%(process_num)02d
@@ -346,6 +354,7 @@ numprocs=1
 redirect_stderr=true
 stdout_logfile=/home/deepchecker/storage/logs/worker.log
 stopwaitsecs=3600
+startsecs=0
 
 [program:crypt-worker-8]
 process_name=%(program_name)s_%(process_num)02d
@@ -358,6 +367,7 @@ numprocs=1
 redirect_stderr=true
 stdout_logfile=/home/deepchecker/storage/logs/worker.log
 stopwaitsecs=3600
+startsecs=0
 
 [program:crypt-worker-9]
 process_name=%(program_name)s_%(process_num)02d
@@ -370,6 +380,7 @@ numprocs=1
 redirect_stderr=true
 stdout_logfile=/home/deepchecker/storage/logs/worker.log
 stopwaitsecs=3600
+startsecs=0
 
 [program:crypt-worker-10]
 process_name=%(program_name)s_%(process_num)02d
@@ -382,6 +393,7 @@ numprocs=1
 redirect_stderr=true
 stdout_logfile=/home/deepchecker/storage/logs/worker.log
 stopwaitsecs=3600
+startsecs=0
 
 [program:crypt-addresses-worker-1]
 process_name=%(program_name)s_%(process_num)02d
@@ -394,6 +406,7 @@ numprocs=1
 redirect_stderr=true
 stdout_logfile=/home/deepchecker/storage/logs/worker.log
 stopwaitsecs=3600
+startsecs=0
 
 [program:crypt-addresses-worker-2]
 process_name=%(program_name)s_%(process_num)02d
@@ -406,6 +419,7 @@ numprocs=1
 redirect_stderr=true
 stdout_logfile=/home/deepchecker/storage/logs/worker.log
 stopwaitsecs=3600
+startsecs=0
 
 [program:crypt-addresses-worker-3]
 process_name=%(program_name)s_%(process_num)02d
@@ -418,6 +432,7 @@ numprocs=1
 redirect_stderr=true
 stdout_logfile=/home/deepchecker/storage/logs/worker.log
 stopwaitsecs=3600
+startsecs=0
 
 [program:crypt-addresses-worker-4]
 process_name=%(program_name)s_%(process_num)02d
@@ -430,6 +445,7 @@ numprocs=1
 redirect_stderr=true
 stdout_logfile=/home/deepchecker/storage/logs/worker.log
 stopwaitsecs=3600
+startsecs=0
 
 [program:crypt-addresses-worker-5]
 process_name=%(program_name)s_%(process_num)02d
@@ -442,6 +458,7 @@ numprocs=1
 redirect_stderr=true
 stdout_logfile=/home/deepchecker/storage/logs/worker.log
 stopwaitsecs=3600
+startsecs=0
 ```
 
 Выполняем
