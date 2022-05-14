@@ -170,6 +170,7 @@ server {
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         fastcgi_index index.php;
         include fastcgi_params;
+        fastcgi_read_timeout 1200;
     }
 
     location ~ /.well-known {
