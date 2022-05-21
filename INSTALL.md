@@ -54,9 +54,10 @@ sudo mysql_secure_installation
 - Remove test database and access to it? **Y**
 - Reload privilege tables now? **Y**
 
-Не забудьте сохранить пароль от БД, он еще пригодится.  
-После заходим в БД `mysql -u root -p` и добавляем новую базу данных:
+Не забудьте сохранить пароль от БД, он еще пригодится.
 
+**После заходим в БД `mysql -u root -p` и добавляем новую базу данных:
+**
 ```
 mysql> create database deepchecker;
 Query OK, 1 row affected (0.00 sec)
