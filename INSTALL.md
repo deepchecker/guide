@@ -43,6 +43,7 @@ sudo apt install redis-server
 sudo apt install mysql-server
 sudo mysql_secure_installation
 ```
+**На предыдущем шаге часто возникает ошибка: «...Failed! Error: SET PASSWORD has no significance for user 'root'@localhost...». Чаще всего это говорит о том, что пользователь базы данных root на вашем сервере уже создан. Пароль - как правило такой же, как от ssh. Если увидили такую ошибку - переходите к шагу: «После заходим в БД `mysql -u root -p` и добавляем...»**
 
 Во время выполнения последней команды отвечаем на следующие вопросы:
 
@@ -86,6 +87,9 @@ sudo nano /etc/php/8.0/fpm/php.ini
 ```
  - Значение строки `max_execution_time` заменяем на `1200`
  - Значение строк `upload_max_filesize` и `post_max_size` заменяем на `64M`
+*Для поиска по файлу - нажмите ctrl + w и вставьте значение, которое хотите найти.*
+**Если в вашем php.ini нет строк max_execution_time, upload_max_filesize, post_max_size - добавьте их в конец файла с указанными выше значениями.
+**
 
 ```
 service php8.0-fpm restart
