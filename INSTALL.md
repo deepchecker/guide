@@ -47,7 +47,7 @@ sudo mysql_secure_installation
 Во время выполнения последней команды отвечаем на следующие вопросы:
 
 - Would you like to setup VALIDATE PASSWORD component? **N**
-- New password/Re-enter new password **Вводим желаемый пароль от БД. На этом шаге часто возникает ошибка: «...Failed! Error: SET PASSWORD has no significance for user 'root'@localhost...». Чаще всего это говорит о том, что пользователь базы данных root на вашем сервере уже создан. Пароль - как правило такой же, как от ssh. Если увидили такую ошибку - переходите к шагу: «После заходим в БД `mysql -u root -p` и добавляем...»**
+- New password/Re-enter new password **Вводим желаемый пароль от БД. На этом шаге часто возникает ошибка: `...Failed! Error: SET PASSWORD has no significance for user 'root'@localhost...`. Чаще всего это говорит о том, что пользователь базы данных root на вашем сервере уже создан. Пароль - как правило такой же, как от ssh. Если увидили такую ошибку - переходите к шагу: «После заходим в БД `mysql -u root -p` и добавляем...»**
 - Remove anonymous users? **Y**
 - Disallow root login remotely? **Y**
 - Remove test database and access to it? **Y**
@@ -59,19 +59,6 @@ sudo mysql_secure_installation
 ```
 mysql> create database deepchecker;
 Query OK, 1 row affected (0.00 sec)
-
-mysql> exit;
-```
-
-В дальнейшем (настройка проекта) во время работы с БД может появляться сообщение `SQLSTATE[HY000] [1698] Access denied for user 'root'@'localhost'`. Если столкнулись с такой проблемой, вернитесь к данному шагу и выполните следующие действия.
-
-```
-mysql -u root -p
-mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'ваш пароль';
-Query OK, 0 rows affected (0.00 sec)
-
-mysql> flush privileges;
-Query OK, 0 rows affected (0.00 sec)
 
 mysql> exit;
 ```
@@ -252,6 +239,18 @@ composer clearcache
 composer update --ignore-platform-reqs
 php artisan config:cache
 php artisan migrate
+```
+**На предыдущем шаге часто возникает ошибка: `SQLSTATE[HY000] [1698] Access denied for user 'root'@'localhost'`. Если столкнулись с такой проблемой - выполните следующие действия.**
+
+```
+mysql -u root -p
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'ваш пароль';
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> flush privileges;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> exit;
 ```
 
 ## Настройка crontab
