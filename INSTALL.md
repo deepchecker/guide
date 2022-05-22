@@ -212,7 +212,7 @@ sudo mkdir deepchecker
 cd deepchecker
 ```
 
-Загружаем архив с чекером на сервер в папку `/home/deepchecker`.  
+Загружаем архив с чекером на сервер в папку `/home/deepchecker`. Сделать это можно с помощью клиента sftp, либо scp.
 
 Распаковываем архив так, чтобы внутри папки deepchecker оказались папки app, bootstrap, config, database, public и другие файлы архива.
 ```
