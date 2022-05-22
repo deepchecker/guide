@@ -88,7 +88,7 @@ sudo nano /etc/php/8.0/fpm/php.ini
  - Значение строк `upload_max_filesize` и `post_max_size` заменяем на `64M`
  
 *Для поиска по файлу - нажмите ctrl + w и вставьте значение, которое хотите найти.*
-**Если в вашем php.ini нет строк max_execution_time, upload_max_filesize, post_max_size - добавьте их в конец файла с указанными выше значениями.
+*Если в вашем php.ini нет строк max_execution_time, upload_max_filesize, post_max_size - добавьте их в конец файла с указанными выше значениями.*
 **
 
 ```
