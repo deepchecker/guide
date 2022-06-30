@@ -45,7 +45,7 @@ sudo nano .env
 ```
 cd /home/deepchecker
 chmod +x scripts/install.sh
-./scripts/install.sh domain.com // **замените domain.com на ваш домен**
+./scripts/install.sh domain.com //замените domain.com на ваш домен
 ```
 
 ### [1.2] Если домен отсутствует
