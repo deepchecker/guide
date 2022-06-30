@@ -1,7 +1,9 @@
-# Вводная информация
+# Deepchecker
 
 DeepChecker - приложение, потребляющее большое количество ресурсов. Все операции происходят в десятках отдельных процессов, в связи с чем для корректной работы приложения требуется VPS с не менее чем 4 vCPU и 4Гб ОЗУ. ОС: Ubuntu 20.04
+
 Приобрести VPS можно здесь:
+
 - https://www.cherryservers.com/
 - https://www.digitalocean.com/
 - https://www.ovhcloud.com/
@@ -16,494 +18,60 @@ DeepChecker - приложение, потребляющее большое ко
 - Host: **@**
 - IP: **1.1.1.1** _(IP вашего VPS сервера)_
 
-# Установка DeepChecker на чистый образ Ubuntu 20.04  
-Будьте внимательны во время установки. В инструкции часто указываются относительные пути, поэтому, если вы не общаетесь с консолью на «Ты» - не перемещайтесь между папками, пока не завершите установку. Выполняйте команды в той последовательности, в которой они указаны.  
-Установка обычно занимает около 25 минут.
+## [1.1] Установка DeepChecker на чистый образ Ubuntu 20.04
+Все указанные ниже команды должны быть введены в консоли вашего сервера.
 
-## Установка необходимого софта
-
+Создаем папку deepchecker
 ```
-sudo apt-get update
-sudo apt install software-properties-common git zip unzip curl
+mkdir /home/deepchecker
 ```
+Загрузите архив с deepchecker в `/home/deepchecker`.
 
-## Установка Redis
-
+Разархивируйте архив
 ```
-sudo apt install redis-server
-```
-
-## Установка MySQL 8
-
-```
-sudo apt install mysql-server
-sudo mysql_secure_installation
-```
-
-Во время выполнения последней команды отвечаем на следующие вопросы:
-
-- Would you like to setup VALIDATE PASSWORD component? **N**
-- New password/Re-enter new password **Вводим желаемый пароль от БД. На этом шаге часто возникает ошибка: `...Failed! Error: SET PASSWORD has no significance for user 'root'@localhost...`. Чаще всего это говорит о том, что пользователь базы данных root на вашем сервере уже создан. Пароль - как правило такой же, как от ssh. Если увидили такую ошибку - переходите к шагу: «После заходим в БД `mysql -u root -p` и добавляем...»**
-- Remove anonymous users? **Y**
-- Disallow root login remotely? **Y**
-- Remove test database and access to it? **Y**
-- Reload privilege tables now? **Y**
-
-Не забудьте сохранить пароль от БД, он еще пригодится.
-
-**После заходим в БД `mysql -u root -p` и добавляем новую базу данных:**
-```
-mysql> create database deepchecker;
-Query OK, 1 row affected (0.00 sec)
-
-mysql> exit;
-```
-
-## Установка PHP 8.0
-
-```
-sudo add-apt-repository ppa:ondrej/php
-sudo apt update
-sudo apt install php8.0-fpm php8.0-mysql php8.0-mbstring php8.0-gmp php8.0-redis php8.0-curl
-sudo nano /etc/php/8.0/fpm/php.ini
-```
- - Значение строки `max_execution_time` заменяем на `1200`
- - Значение строк `upload_max_filesize` и `post_max_size` заменяем на `64M`
- 
-*Для поиска по файлу - нажмите ctrl + w и вставьте значение, которое хотите найти.*
-*Если в вашем php.ini нет строк max_execution_time, upload_max_filesize, post_max_size - добавьте их в конец файла с указанными выше значениями.*
-
-```
-service php8.0-fpm restart
-```
-
-## Установка Nginx
-
-```
-sudo apt-get install nginx
-cd /etc/nginx/sites-available
-sudo rm default
-sudo nano default
-```
-
-Вставляем данный конфиг, заменяем 'yourdomain.com' на свой домен
-
-```
-server {
-    listen 80 default_server;
-
-    return 444;
-}
-
-server {
-    listen 80;
-    server_name yourdomain.com;
-    root /home/deepchecker/public;
-    index index.php;
-
-    gzip on;
-    gzip_disable "msie6";
-    gzip_vary on;
-    gzip_proxied any;
-    gzip_comp_level 5;
-    gzip_buffers 16 8k;
-    gzip_http_version 1.1;
-    gzip_min_length 256;
-    gzip_types
-        application/atom+xml
-        application/javascript
-        application/json
-        application/ld+json
-        application/manifest+json
-        application/rss+xml
-        application/vnd.geo+json
-        application/vnd.ms-fontobject
-        application/x-font-ttf
-        application/x-font-woff
-        application/x-web-app-manifest+json
-        application/xhtml+xml
-        application/xml
-        font/opentype
-        image/webp
-        image/bmp
-        image/svg+xml
-        image/x-icon
-        text/cache-manifest
-        text/css
-        text/plain
-        text/vcard
-        text/vnd.rim.location.xloc
-        text/vtt
-        text/x-component
-        text/x-cross-domain-policy;
-
-    add_header "X-Content-Type-Options" "nosniff";
-    add_header "X-UA-Compatible" "IE=Edge";
-    add_header "X-XSS-Protection" "1; mode=block";
-    add_header "Strict-Transport-Security" "max-age=31536000; includeSubDomains";
-    add_header "Content-Security-Policy" "default-src * data: blob: 'unsafe-eval' 'unsafe-inline'";
-    add_header "Referrer-Policy" "origin";
-
-    client_max_body_size 64m;
-
-    location / {
-        try_files $uri $uri/ /index.php?_url=$uri&$query_string;
-    }
-
-    location ~ \.php$ {
-        try_files $uri =404;
-        fastcgi_pass unix:/run/php/php8.0-fpm.sock;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        fastcgi_index index.php;
-        include fastcgi_params;
-        fastcgi_read_timeout 1200;
-    }
-
-    location ~ /.well-known {
-        allow all;
-    }
-}
-```
-Жмем Ctrl + x, затем Y, затем Enter
-
-Перезагружаем nginx
-
-```
-sudo service nginx restart
-```
-
-
-## Установка Composer
-
-```
-cd /tmp
-curl -sS https://getcomposer.org/installer -o composer-setup.php
-sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
-```
-
-## Установка Supervisor
-
-```
-sudo apt install supervisor
-```
-
-## Настройка проекта
-
-```
-cd /home
-sudo mkdir deepchecker
-cd deepchecker
-```
-
-Загружаем архив с чекером на сервер в папку `/home/deepchecker`. Сделать это можно с помощью клиента sftp, либо scp.
-
-Распаковываем архив так, чтобы внутри папки deepchecker оказались папки app, bootstrap, config, database, public и другие файлы архива.
-```
+sudo apt-get install unzip
 unzip deepchecker.zip
 ```
 
-Права доступа к файлам
+Откройте `.env`.
+```
+sudo nano .env
+```
+Вставьте в `APP_URL=` домен, на котором планируете запускать чекер в формате https://domain.com/ (обязателньо через https).
+Поменяйте значение `DB_PASSWORD=` и `REDIS_PASSWORD=` с `secret` на пароль, который хотите установить.
+
+### [1.2] Если домен присутствует
 
 ```
-chmod -R 775 /home/deepchecker
-sudo find . -type f -exec chmod 644 {} \;
-sudo find . -type d -exec chmod 755 {} \;
-sudo chmod -R 777 ./storage
-sudo chmod -R 777 ./bootstrap/cache/
+cd /home/deepchecker
+chmod +x scripts/install.sh
+./scripts/install.sh **domain.com** // замените domain.com на ваш домен
 ```
 
-```
-composer install --ignore-platform-reqs
-cp .env.example .env
-php artisan key:generate
-```
-
-Открываем файл .env
+### [1.2] Если домен отсутствует
 
 ```
-sudo nano /home/deepchecker/.env
+cd /home/deepchecker
+chmod +x scripts/install.sh
+./scripts/install.sh
 ```
 
-Заменяем значение **APP_URL** на ваш домен в формате https://domain.com/ (обязателньо через https)  
-Заменяем значение **DB_PASSWORD** на пароль, который вы указывали выше (на шаге 'Установка MySQL 8')  
+## [2.1] Обновление чекера (если вышла новая версия)
 
+Скачайте архив с новой версией на свое устройство.
+Откройте `.env` в архиве с новой версией deepchecker и сравните его с существующим `.env` старой версии. Если в первом появились новые строки - добавьте их в `.env`.
+Загрузите архив с новой версией deepchecker в `/home/deepchecker`.
+Распакуйте все файлы из нового архива кроме `.env` в `/home/deepchecker` с заменой старых файлов.
 
-После чего выполняем:
-
+Введите в консоли:
 ```
-composer clearcache
-composer update --ignore-platform-reqs
-php artisan config:cache
-php artisan migrate
-```
-**На предыдущем шаге часто возникает ошибка: `SQLSTATE[HY000] [1698] Access denied for user 'root'@'localhost'`. Если столкнулись с такой проблемой - выполните следующие действия.**
-
-```
-mysql -u root -p
-mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'ваш пароль';
-Query OK, 0 rows affected (0.00 sec)
-
-mysql> flush privileges;
-Query OK, 0 rows affected (0.00 sec)
-
-mysql> exit;
-
-php artisan migrate
+cd /home/deepchecker
+chmod +x scripts/remove.sh
+./scripts/remove.sh
 ```
 
-## Настройка crontab
-
-```
-crontab -e
-```
-Choose 1-4 [1]: **1**  
-
-Добавляем в конец файла:
-
-```
-* * * * * cd /home/deepchecker && php artisan schedule:run >> /dev/null 2>&1
-```
-
-## Настройка Supervisor
-
-```
-sudo nano /etc/supervisor/conf.d/crypt-worker.conf
-```
-
-Вставляем
-
-```
-[program:crypt-worker-1]
-process_name=%(program_name)s_%(process_num)02d
-command=php /home/deepchecker/artisan wallet:parse 1 --loop
-autostart=true
-autorestart=true
-stopasgroup=true
-killasgroup=true
-numprocs=1
-redirect_stderr=true
-stdout_logfile=/home/deepchecker/storage/logs/worker.log
-stopwaitsecs=3600
-startsecs=0
-
-[program:crypt-worker-2]
-process_name=%(program_name)s_%(process_num)02d
-command=php /home/deepchecker/artisan wallet:parse 2 --loop
-autostart=true
-autorestart=true
-stopasgroup=true
-killasgroup=true
-numprocs=1
-redirect_stderr=true
-stdout_logfile=/home/deepchecker/storage/logs/worker.log
-stopwaitsecs=3600
-startsecs=0
-
-[program:crypt-worker-3]
-process_name=%(program_name)s_%(process_num)02d
-command=php /home/deepchecker/artisan wallet:parse 3 --loop
-autostart=true
-autorestart=true
-stopasgroup=true
-killasgroup=true
-numprocs=1
-redirect_stderr=true
-stdout_logfile=/home/deepchecker/storage/logs/worker.log
-stopwaitsecs=3600
-startsecs=0
-
-[program:crypt-worker-4]
-process_name=%(program_name)s_%(process_num)02d
-command=php /home/deepchecker/artisan wallet:parse 4 --loop
-autostart=true
-autorestart=true
-stopasgroup=true
-killasgroup=true
-numprocs=1
-redirect_stderr=true
-stdout_logfile=/home/deepchecker/storage/logs/worker.log
-stopwaitsecs=3600
-startsecs=0
-
-[program:crypt-worker-5]
-process_name=%(program_name)s_%(process_num)02d
-command=php /home/deepchecker/artisan wallet:parse 5 --loop
-autostart=true
-autorestart=true
-stopasgroup=true
-killasgroup=true
-numprocs=1
-redirect_stderr=true
-stdout_logfile=/home/deepchecker/storage/logs/worker.log
-stopwaitsecs=3600
-startsecs=0
-
-[program:crypt-worker-6]
-process_name=%(program_name)s_%(process_num)02d
-command=php /home/deepchecker/artisan wallet:parse 6 --loop
-autostart=true
-autorestart=true
-stopasgroup=true
-killasgroup=true
-numprocs=1
-redirect_stderr=true
-stdout_logfile=/home/deepchecker/storage/logs/worker.log
-stopwaitsecs=3600
-startsecs=0
-
-[program:crypt-worker-7]
-process_name=%(program_name)s_%(process_num)02d
-command=php /home/deepchecker/artisan wallet:parse 7 --loop
-autostart=true
-autorestart=true
-stopasgroup=true
-killasgroup=true
-numprocs=1
-redirect_stderr=true
-stdout_logfile=/home/deepchecker/storage/logs/worker.log
-stopwaitsecs=3600
-startsecs=0
-
-[program:crypt-worker-8]
-process_name=%(program_name)s_%(process_num)02d
-command=php /home/deepchecker/artisan wallet:parse 8 --loop
-autostart=true
-autorestart=true
-stopasgroup=true
-killasgroup=true
-numprocs=1
-redirect_stderr=true
-stdout_logfile=/home/deepchecker/storage/logs/worker.log
-stopwaitsecs=3600
-startsecs=0
-
-[program:crypt-worker-9]
-process_name=%(program_name)s_%(process_num)02d
-command=php /home/deepchecker/artisan wallet:parse 9 --loop
-autostart=true
-autorestart=true
-stopasgroup=true
-killasgroup=true
-numprocs=1
-redirect_stderr=true
-stdout_logfile=/home/deepchecker/storage/logs/worker.log
-stopwaitsecs=3600
-startsecs=0
-
-[program:crypt-worker-10]
-process_name=%(program_name)s_%(process_num)02d
-command=php /home/deepchecker/artisan wallet:parse 10 --loop
-autostart=true
-autorestart=true
-stopasgroup=true
-killasgroup=true
-numprocs=1
-redirect_stderr=true
-stdout_logfile=/home/deepchecker/storage/logs/worker.log
-stopwaitsecs=3600
-startsecs=0
-
-[program:crypt-addresses-worker-1]
-process_name=%(program_name)s_%(process_num)02d
-command=php /home/deepchecker/artisan wallet:addresses 1 2 --loop
-autostart=true
-autorestart=true
-stopasgroup=true
-killasgroup=true
-numprocs=1
-redirect_stderr=true
-stdout_logfile=/home/deepchecker/storage/logs/worker.log
-stopwaitsecs=3600
-startsecs=0
-
-[program:crypt-addresses-worker-2]
-process_name=%(program_name)s_%(process_num)02d
-command=php /home/deepchecker/artisan wallet:addresses 3 4 --loop
-autostart=true
-autorestart=true
-stopasgroup=true
-killasgroup=true
-numprocs=1
-redirect_stderr=true
-stdout_logfile=/home/deepchecker/storage/logs/worker.log
-stopwaitsecs=3600
-startsecs=0
-
-[program:crypt-addresses-worker-3]
-process_name=%(program_name)s_%(process_num)02d
-command=php /home/deepchecker/artisan wallet:addresses 5 6 --loop
-autostart=true
-autorestart=true
-stopasgroup=true
-killasgroup=true
-numprocs=1
-redirect_stderr=true
-stdout_logfile=/home/deepchecker/storage/logs/worker.log
-stopwaitsecs=3600
-startsecs=0
-
-[program:crypt-addresses-worker-4]
-process_name=%(program_name)s_%(process_num)02d
-command=php /home/deepchecker/artisan wallet:addresses 7 8 --loop
-autostart=true
-autorestart=true
-stopasgroup=true
-killasgroup=true
-numprocs=1
-redirect_stderr=true
-stdout_logfile=/home/deepchecker/storage/logs/worker.log
-stopwaitsecs=3600
-startsecs=0
-
-[program:crypt-addresses-worker-5]
-process_name=%(program_name)s_%(process_num)02d
-command=php /home/deepchecker/artisan wallet:addresses 9 10 --loop
-autostart=true
-autorestart=true
-stopasgroup=true
-killasgroup=true
-numprocs=1
-redirect_stderr=true
-stdout_logfile=/home/deepchecker/storage/logs/worker.log
-stopwaitsecs=3600
-startsecs=0
-```
-
-Выполняем
-
-```
-sudo supervisorctl reread
-sudo supervisorctl update
-sudo supervisorctl start all
-```
-
-## Установка сертификата
-
-```
-sudo apt install snapd
-sudo snap install core
-sudo snap refresh core
-sudo snap install --classic certbot
-sudo ln -s /snap/bin/certbot /usr/bin/certbot
-sudo certbot --nginx
-```
-**На предыдущем шаге может возникнуть ошибка: `Cerbot failed to authenticate some domains... Some changes have failed.`. Она возникает в двух случаях: либо добавленная вами А-запись для домена еще не успела обновиться (обычно занимает до 2-х часов). Либо вы забыли добавить А-запись для вашего домена.**
-
-```
-Enter email address (used for urgent renewal and security notices)
- (Enter 'c' to cancel): **Ваш email**
-(Y)es/(N)o: **Y**
-(Y)es/(N)o: **Y**
-Select the appropriate numbers separated by commas and/or spaces, or leave input
-blank to select all options shown (Enter 'c' to cancel): **Номер слева от вашего домена**
-```
-
-## (Опционально) Ошибка порта 443
-В редких случаях, на вашем VPS сервере может быть закрыт порт 443, тогда вы столкнетесь на предыдущем шаге с ошибкой 'Invalid response from https://вашдомен.com/:443...'. 
-В случае, если вы столкнулись с такой ошибкой - откройте порт 443 командой:
-```
-ufw allow 443
-```
+Далее процесс аналогичен установке.
+Выполните шаг 1.2 (см выше)
 
 # Авторизация
 
@@ -515,13 +83,12 @@ ufw allow 443
 # Начало работы
 
 ## Телеграм - бот
-- Пишем в личные сообщения тг **@botfather**, создаем бота, получаем токен бота в формате 111111111:DASKDI2109290DWR10-4013389120-32  
-- Заходим в админку чекера по ссылке **/settings**, заполняем поля **'Имя бота (указываем без @)'** и **'Токен'**, жмем кнопку **'Обновить'**.  
+- Пишем в личные сообщения тг **@botfather**, создаем бота, получаем токен бота в формате 111111111:DASKDI2109290DWR10-4013389120-32
+- Заходим в админку чекера по ссылке **/settings**, заполняем поля **'Имя бота (указываем без @)'** и **'Токен'**, жмем кнопку **'Обновить'**.
 - Жмем кнопку **'Привязать вебхук Telegram'**.
-- Пишем **/start** в личные сообщения нашему боту.  
-- Возвращаемся в админку чекера на страницу **/settings**. Заполняем поле 'Уведомлять, если баланс кошелька превысит' - указываем пороговую сумму в $.  
-- Копируем текст из поля **/pair 0000000000000000000000000** и отправляем его боту.  
+- Пишем **/start** в личные сообщения нашему боту.
+- Возвращаемся в админку чекера на страницу **/settings**. Заполняем поле 'Уведомлять, если баланс кошелька превысит' - указываем пороговую сумму в $.
+- Копируем текст из поля **/pair 0000000000000000000000000** и отправляем его боту.
 - Если все верно - бот пришлет вам сообщение 'Привязка успешно совершена' и с этого момента будет присылать уведомления о находках.
 
 **Можете приступать к работе**  
-
