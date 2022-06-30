@@ -41,7 +41,8 @@ sudo nano .env
 Поменяйте значение `DB_PASSWORD=` и `REDIS_PASSWORD=` с `secret` на пароль, который хотите установить.
 
 ### [1.2] Если домен присутствует
-
+**Выполняем следующие команды, заменив 'domain.com' на ваш домен
+**
 ```
 cd /home/deepchecker
 chmod +x scripts/install.sh
