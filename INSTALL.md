@@ -29,6 +29,7 @@ mkdir /home/deepchecker
 
 Разархивируйте архив
 ```
+sudo apt-get update
 sudo apt-get install unzip
 unzip deepchecker.zip
 ```
