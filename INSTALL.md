@@ -23,7 +23,7 @@ DeepChecker - приложение, потребляющее большое ко
 
 Создаем папку deepchecker
 ```
-mkdir /home/deepchecker
+sudo mkdir /home/deepchecker
 ```
 Загрузите архив с deepchecker в `/home/deepchecker`.
 
