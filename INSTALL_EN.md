@@ -1,57 +1,59 @@
 # Deepchecker
 
-DeepChecker - приложение, потребляющее большое количество ресурсов. Все операции происходят в десятках отдельных процессов, в связи с чем для корректной работы приложения требуется VPS с не менее чем 4 vCPU и 4Гб ОЗУ. ОС: Ubuntu 20.04
-
-Приобрести VPS можно здесь:
+DeepChecker is an application that consumes a lot of resources. All operations take place in dozens of separate processes, and therefore a VPS with at least 4 vCPUs and 4GB of RAM is required for the application to work correctly. OS: Ubuntu 20.04
+You can buy VPS here:
 
 - https://www.cherryservers.com/
 - https://www.digitalocean.com/
 - https://www.ovhcloud.com/
 - https://www.hetzner.com/
 
-# Доменное имя
+# Domain name
 
-Для полноценной работы DeepChecker - необходимо доменное имя с установленным SSL сертификатом. Софт способен работать и на ip адресе, но в таком случае - вы будете лишены возможности получать уведомления от телеграм бота, поскольку API telegram работает только по протоколу https.
+For DeepChecker to work correctly, you need a domain name with an installed SSL certificate. The software is also able to work on the IP address, but in this case, you will be deprived of the opportunity to receive notifications from the telegram bot, since the telegram API only works using the https protocol.
 
-Купите домен у любого удобного вам регистратора и добавьте А-запись с IP вашего VPS сервера. Указываем следующие настройки:
+You need to buy a domain from any registrar convenient for you and add an A-record from the IP of your VPS server. Specify the following settings:
 
 - Host: **@**
-- IP: **1.1.1.1** _(IP вашего VPS сервера)_
+- IP: **1.1.1.1** _(IP address of your VPS server)_
 
-## [1.1] Установка DeepChecker на чистый образ Ubuntu 20.04
-Все указанные ниже команды должны быть введены в консоли вашего сервера.
+## [1.1] Installing DeepChecker on a clean Ubuntu 20.04 image
 
-Создаем папку deepchecker
+All of the commands below must be entered in the console of your server.
+
+Create a deepchecker folder
 ```
 sudo mkdir /home/deepchecker
 ```
-Загрузите архив с deepchecker в `/home/deepchecker`.
+Now you need to upload the archive with deepchecker to the server in `/home/deepchecker`.
 
-Разархивируйте архив
+Unzip the archive
 ```
 sudo apt-get update
 sudo apt-get install unzip
 unzip deepchecker.zip
 ```
 
-Откройте `.env`.
+Open `.env`.
 ```
 sudo nano .env
 ```
-Вставьте в `APP_URL=` домен, на котором планируете запускать чекер в формате https://domain.com/ (обязателньо через https), или в формате http://ипвашегосервера/ (если планируете разворачивать чекер на ип адресе без домена)
-Поменяйте значение `DB_PASSWORD=` и `REDIS_PASSWORD=` с `secret` на пароль, который хотите установить.
 
-Закройте nano сочетанием клавиш `ctrl + x`, далее нажмите `Y` чтобы сохранить изменения.
+Insert in `APP_URL=` the domain where you plan to run the checker in the format https://domain.com/ (required via https), or in the format http://yourserver/ (if you plan to deploy the checker on an IP address without a domain)
+Change the value of `DB_PASSWORD=` and `REDIS_PASSWORD=` from `secret` to the password you want to set.
 
-### [1.2] Если домен присутствует
-**Выполняем следующие команды, заменив 'domain.com' на ваш домен**
+Close nano with `ctrl + x`, then press `Y` to save the changes.
+
+### [1.2] If the domain is present
+**Run the following commands, replacing 'domain.com' with your domain**
+
 ```
 cd /home/deepchecker
 chmod +x scripts/install.sh
-./scripts/install.sh domain.com //замените domain.com на ваш домен
+./scripts/install.sh domain.com //replace domain.com with your domain
 ```
 
-### [1.2] Если домен отсутствует
+### [1.2] If the domain is missing
 
 ```
 cd /home/deepchecker
@@ -59,39 +61,39 @@ chmod +x scripts/install.sh
 ./scripts/install.sh
 ```
 
-## [2.1] Обновление чекера (если вышла новая версия)
+## [2.1] Checker update (if a new version is released)
 
-Скачайте архив с новой версией на свое устройство.
-Откройте `.env` в архиве с новой версией deepchecker и сравните его с существующим `.env` старой версии. Если в первом появились новые строки - добавьте их в `.env`.
-Загрузите архив с новой версией deepchecker в `/home/deepchecker`.
-Распакуйте все файлы из нового архива кроме `.env` в `/home/deepchecker` с заменой старых файлов.
+Download the archive with the new version to your device.
+Open `.env` in the archive with the new version of deepchecker and compare it with the existing `.env` of the old version. If there are new lines in the first one, add them to `.env`.
+Upload the archive with the new version of deepchecker to `/home/deepchecker`.
+Unpack all files from the new archive except `.env` to `/home/deepchecker` replacing old files.
 
-Введите в консоли:
+Enter in the console:
 ```
 cd /home/deepchecker
 chmod +x scripts/remove.sh
 ./scripts/remove.sh
 ```
 
-Далее процесс аналогичен установке.
-Выполните шаг 1.2 (см выше)
+Further, the process is similar to the installation.
+Follow step 1.2 (see above)
 
-# Авторизация
+# Authorization
 
-После первой установки вам доступен следующий аккаунт администратора:
+After the first installation, the following administrator account is available to you:
 
-Логин: user@site.ru
-Пароль: password
+Login: user@site.ru
+Password: password
 
-# Начало работы
+# Beginning of work
 
-## Телеграм - бот
-- Пишем в личные сообщения тг **@botfather**, создаем бота, получаем токен бота в формате 111111111:DASKDI2109290DWR10-4013389120-32
-- Заходим в админку чекера по ссылке **/settings**, заполняем поля **'Имя бота (указываем без @)'** и **'Токен'**, жмем кнопку **'Обновить'**.
-- Жмем кнопку **'Привязать вебхук Telegram'**.
-- Пишем **/start** в личные сообщения нашему боту.
-- Возвращаемся в админку чекера на страницу **/settings**. Заполняем поле 'Уведомлять, если баланс кошелька превысит' - указываем пороговую сумму в $.
-- Копируем текст из поля **/pair 0000000000000000000000000** и отправляем его боту.
-- Если все верно - бот пришлет вам сообщение 'Привязка успешно совершена' и с этого момента будет присылать уведомления о находках.
+## Telegram - bot
+- Find **@botfather** in telegram, create your bot, get the bot token in the format `111111111:DASKDI2109290DWR10-4013389120-32`
+- Go to the checker admin panel using the link **/settings**, fill in the fields **'Bot name (specify without @)'** and **'Token'**, click the **'Update'** button.
+- Click the button **'Link Telegram webhook'**.
+- Write **/start** in private messages to your bot.
+- Return to the checker admin panel to the **/settings** page. Fill in the field 'Notify me if the wallet balance exceeds' - specify the threshold amount in $.
+- Copy the text from the field **/pair 0000000000000000000000000** and send it to your df in the bot.
+- If everything is correct - the bot will send you a message 'Linking successfully completed' and from that moment on it will send you notifications.
 
-**Можете приступать к работе**  
+**You can start working**
