@@ -87,6 +87,16 @@ Password: password
 
 # Beginning of work
 
+## Proxy
+**We strongly recommend to use about 50 ipv4 http proxies (preferably private ones).**
+
+You can buy proxies here:
+- https://proxyline.net/ipv4/ (you can pay with crypto, fast issuance)
+- https://proxy-seller.io/
+- https://proxy6.net/
+
+Add proxies on the **/proxies** page.
+
 ## Telegram - bot
 - Find **@botfather** in telegram, create your bot, get the bot token in the format `111111111:DASKDI2109290DWR10-4013389120-32`
 - Go to the checker admin panel using the link **/settings**, fill in the fields **'Bot name (specify without @)'** and **'Token'**, click the **'Update'** button.
