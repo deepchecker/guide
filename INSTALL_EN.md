@@ -61,7 +61,7 @@ chmod +x scripts/install.sh
 ./scripts/install.sh
 ```
 
-# Checker update (if a new version is released)
+### Checker update (if a new version is released)
 
 Download the archive with the new version to your device.
 Open `.env` in the archive with the new version of deepchecker and compare it with the existing `.env` of the old version. If there are new lines in the first one, add them to `.env`.
