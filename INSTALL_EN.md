@@ -1,6 +1,6 @@
 # Deepchecker
 
-DeepChecker is an application that consumes a lot of resources. All operations take place in dozens of separate processes, and therefore a VPS with at least 4 vCPUs and 4GB of RAM is required for the application to work correctly. OS: Ubuntu 20.04
+DeepChecker is an application that consumes a lot of resources. All operations take place in dozens of separate processes, and therefore a VPS with at least 6 vCPUs and 6GB of RAM is required for the application to work correctly. OS: Ubuntu 20.04
 You can buy VPS here:
 
 - https://www.cherryservers.com/
