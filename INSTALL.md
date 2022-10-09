@@ -90,7 +90,6 @@ chmod +x scripts/remove.sh
 Приобрести прокси можно здесь:
 - https://proxyline.net/ipv4/ (можно оплатить криптой, быстрая выдача)
 - https://proxy-seller.io/
-- https://proxy6.net/
 
 Добавьте прокси на странице **/proxies**.
 
