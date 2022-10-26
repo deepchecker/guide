@@ -88,7 +88,7 @@ Password: password
 # Beginning of work
 
 ## Proxy
-**We strongly recommend to use about 50 ipv4 http proxies (preferably private ones).**
+**We strongly recommend to use about 60 ipv4 http proxies (preferably private ones).**
 
 You can buy proxies here:
 - https://proxyline.net/ipv4/ (you can pay with crypto, fast issuance)
