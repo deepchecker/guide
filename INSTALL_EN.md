@@ -93,7 +93,6 @@ Password: password
 You can buy proxies here:
 - https://proxyline.net/ipv4/ (you can pay with crypto, fast issuance)
 - https://proxy-seller.io/
-- https://proxy6.net/
 
 Add proxies on the **/proxies** page.
 
