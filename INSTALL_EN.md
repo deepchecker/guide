@@ -48,16 +48,14 @@ Close nano with `ctrl + x`, then press `Y` to save the changes.
 
 ```
 cd /home/deepchecker
-chmod +x scripts/install.sh
-./scripts/install.sh domain.com //replace domain.com with your domain
+bash scripts/install.sh domain.com //replace domain.com with your domain
 ```
 
 ### [1.2] If the domain is missing
 
 ```
 cd /home/deepchecker
-chmod +x scripts/install.sh
-./scripts/install.sh
+bash scripts/install.sh
 ```
 
 ### Checker update (if a new version is released)
@@ -70,8 +68,7 @@ Unpack all files from the new archive except `.env` to `/home/deepchecker` repla
 Enter in the console:
 ```
 cd /home/deepchecker
-chmod +x scripts/remove.sh
-./scripts/remove.sh
+bash scripts/remove.sh
 ```
 
 Further, the process is similar to the installation.
