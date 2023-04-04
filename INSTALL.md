@@ -44,17 +44,15 @@ sudo nano .env
 ### [1.2] Если домен присутствует
 **Выполняем следующие команды, заменив 'domain.com' на ваш домен**
 ```
-cd /home/deepchecker
-chmod +x scripts/install.sh
-./scripts/install.sh domain.com //замените domain.com на ваш домен
+cd /home/seedchecker
+bash scripts/install.sh domain.com //замените domain.com на ваш домен
 ```
 
 ### [1.2] Если домен отсутствует
 
 ```
 cd /home/deepchecker
-chmod +x scripts/install.sh
-./scripts/install.sh
+bash scripts/install.sh
 ```
 
 ### Обновление чекера (если вышла новая версия)
@@ -67,8 +65,7 @@ chmod +x scripts/install.sh
 Введите в консоли:
 ```
 cd /home/deepchecker
-chmod +x scripts/remove.sh
-./scripts/remove.sh
+bash scripts/remove.sh
 ```
 
 Далее процесс аналогичен установке.
