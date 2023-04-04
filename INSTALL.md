@@ -44,7 +44,7 @@ sudo nano .env
 ### [1.2] Если домен присутствует
 **Выполняем следующие команды, заменив 'domain.com' на ваш домен**
 ```
-cd /home/seedchecker
+cd /home/deepchecker
 bash scripts/install.sh domain.com //замените domain.com на ваш домен
 ```
 
