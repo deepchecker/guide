@@ -40,7 +40,6 @@ sudo nano .env
 ```
 
 Insert in `APP_URL=` the domain where you plan to run the checker in the format https://domain.com/ (required via https), or in the format http://yourserver/ (if you plan to deploy the checker on an IP address without a domain)
-Change the value of `DB_PASSWORD=` and `REDIS_PASSWORD=` from `secret` to the password you want to set.
 
 Close nano with `ctrl + x`, then press `Y` to save the changes.
 
